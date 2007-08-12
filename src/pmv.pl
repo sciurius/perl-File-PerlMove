@@ -6,8 +6,8 @@ my $RCS_Id = '$Id$ ';
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Sat Aug  7 15:13:06 2004
-# Update Count    : 101
+# Last Modified On: Sun Aug 12 23:54:08 2007
+# Update Count    : 132
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
@@ -19,6 +19,7 @@ my $my_package = 'Sciurix';
 # Program name and version.
 my ($my_name, $my_version) = $RCS_Id =~ /: (.+).pl,v ([\d.]+)/;
 # Tack '*' if it is not checked in into RCS.
+our $VERSION = $my_version;
 $my_version .= '*' if length('$Locker$ ') > 12;
 
 ################ Command line parameters ################
@@ -26,63 +27,35 @@ $my_version .= '*' if length('$Locker$ ') > 12;
 my $showonly = 0;		# just show, do nothing
 my $reverse = 0;		# process in reverse order
 my $overwrite = 0;		# overwrite existing files
+my $createdirs = 0;		# create missing dirs
 my $link = 0;			# link instead of rename
 my $symlink = 0;		# symlink instead
 my $verbose = 0;		# more verbosity
 
-# Development options (not shown with --help).
-my $debug = 0;			# debugging
-my $trace = 0;			# trace (show process)
-my $test = 0;			# test mode.
-
 # Process command line options.
 app_options();
 
-# Post-processing.
-$trace |= ($debug || $test);
-
 ################ Presets ################
-
-my $TMPDIR = $ENV{TMPDIR} || $ENV{TEMP} || '/usr/tmp';
 
 ################ The Process ################
 
+use File::PerlMove;
+
+# Get the command string;
 my $cmd = shift;
 
-@ARGV = reverse(@ARGV) if $reverse;
-foreach ( @ARGV ) {
-    my $old = $_;
-    eval "{$cmd}";
-    if ( $@ ) {
-        $@ =~ s/ at \(eval.*/./;
-	die($@);
-    }
-    my $new = $_;
-    unless ( $old eq $new ) {
-	if ( $verbose || $showonly ) {
-	    print STDERR ("$old => $new\n");
-	    next if $showonly;
-	}
-	if ( ! $overwrite && -e $new ) {
-	    warn("$new: exists\n");
-	    next;
-	}
+File::PerlMove::move
+  ($cmd, \@ARGV,
+   { showonly	 => $showonly,
+     reverse	 => $reverse,
+     overwrite	 => $overwrite,
+     createdirs	 => $createdirs,
+     link	 => $link,
+     symlink	 => $symlink,
+     verbose	 => $verbose,
+   });
 
-	if ( $symlink ) {
-	    symlink($old, $new) || warn("$old: $!\n");
-	}
-	elsif ( $link ) {
-	    link($old, $new) || warn("$old: $!\n");
-	}
-	else {
-	    rename($old, $new) || warn("$old: $!\n");
-	}
-    }
-}
-
-exit 0;
-
-################ Subroutines ################
+exit;
 
 ################ Command Line Options ################
 
@@ -91,7 +64,7 @@ use Getopt::Long qw(:config bundling);
 sub app_options {
     eval { Getopt::Long::->VERSION(2.34) };	# will enable help/version
 
-    GetOptions(ident	   => \&app_ident,
+    GetOptions(ident	     => \&app_ident,
 	       'verbose|v'   => \$verbose,
 
 	       # application specific options go here
@@ -100,11 +73,8 @@ sub app_options {
 	       'dry-run|n'   => \$showonly,
 	       'reverse|r'   => \$reverse,
 	       'overwrite|o' => \$overwrite,
-
-	       # development options
-	       test	   => \$test,
-	       trace	   => \$trace,
-	       debug	   => \$debug)
+	       'make-dirs|p' => \$createdirs,
+	      )
       or Getopt::Long::HelpMessage(2);
 }
 
@@ -120,7 +90,7 @@ pmv - rename files using Perl expressions
 
 =head1 SYNOPSIS
 
-pmv [options] [file ...]
+pmv [options] expression [file ...]
 
 Options:
 
@@ -129,15 +99,20 @@ Options:
    --symlink		symlink instead of rename
    --reverse -r		process in reverse order
    --overwite -o	overwrite exisiting files
+   --make-dirs -p       create target dirs, if necessary
    --ident		show identification
    --help		brief help message
    --verbose		verbose information
 
 =head1 DESCRIPTION
 
-B<This program> will apply the given Perl expression to each of the
+B<pmv> will apply the given Perl expression to each of the
 file names. If the result is different from the original name, the
 file will be renamed, linked, or symlinked.
+
+If the expression is any of C<uc>, C<lc>, of C<ucfirst>, B<pmv> will DWIM.
+
+B<pmv> is a wrapper around File::PerlMove, which does most of the work.
 
 =head1 OPTIONS
 
@@ -162,6 +137,10 @@ Process the files in reversed order.
 =item B<--overwrite>
 
 Overwrite existing files.
+
+=item B<--make-dirs>
+
+Create target directories if necessary.
 
 =item B<--verbose>
 
@@ -193,6 +172,10 @@ To change editor backup files back to Perl sources:
     foo.bak => foo.pl
     bar.bak => bar.pl
 
+Lowcase file names:
+
+    $ pmv lc *JPG
+
 Shift numbered examples to a new section:
 
     $ pmv --reversed 's/^ex(\d)/"ex".($1+3)/ge' ex*
@@ -204,6 +187,10 @@ Shift numbered examples to a new section:
 
 Note that these need to be processed in reversed order, to prevent
 C<ex12.dat => ex42.dat> botching with the exisitng C<ex42.dat>.
+
+=head1 SEE ALSO
+
+File::PerlMove.
 
 =head1 AUTHOR
 
