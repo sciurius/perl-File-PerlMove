@@ -7,8 +7,8 @@ my $RCS_Id = '$Id$ ';
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Sun Aug 12 23:55:24 2007
-# Update Count    : 138
+# Last Modified On: Mon Aug 13 12:20:27 2007
+# Update Count    : 144
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
@@ -23,6 +23,7 @@ sub move {
     my $transform = shift;
     my $filelist  = shift;
     my $options   = shift || {};
+    my $result    = 0;
 
     croak("Usage: move(" .
 	  "operation, [ file names ], { options })")
@@ -70,17 +71,26 @@ sub move {
 	    }
 
 	    # Perform.
+	    my $res = -1;
 	    if ( $options->{symlink} ) {
-		symlink($old, $new) || warn("$old: $!\n");
+		$res = symlink($old, $new);
 	    }
 	    elsif ( $options->{link} ) {
-		link($old, $new) || warn("$old: $!\n");
+		$res = link($old, $new);
 	    }
 	    else {
-		rename($old, $new) || warn("$old: $!\n");
+		$res = rename($old, $new);
+	    }
+	    if ( $res == 1 ) {
+		$result++;
+	    }
+	    else {
+		warn("$old: $!\n");
 	    }
 	}
     }
+
+    $result;
 }
 
 sub build_sub {
