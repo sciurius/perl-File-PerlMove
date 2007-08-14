@@ -2,7 +2,19 @@
 
 use strict;
 use warnings;
-use Test::More tests => 9;
+
+my $can_symlink;
+
+BEGIN {
+    require Test::More;
+    eval { symlink("X","X") };
+    if ( $@ ) {
+	Test::More->import( skip_all => "Platform has no symlink");
+    }
+    else {
+	Test::More->import( tests => 9 );
+    }
+}
 
 BEGIN {
     use_ok('File::PerlMove');
