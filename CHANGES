@@ -1,1 +1,6 @@
+0.02 Skip uc/lc tests if the file system is case insensitive (Windows,
+     Mac).
+     Skip symlink tests if the platform doesn't have one (Windows).
+     Document this.
+
 0.01 initial release.
