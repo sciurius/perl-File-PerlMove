@@ -7,13 +7,13 @@ my $RCS_Id = '$Id$ ';
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Tue Aug 14 23:10:47 2007
-# Update Count    : 148
+# Last Modified On: Tue Aug 14 23:27:19 2007
+# Update Count    : 149
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 use strict;
 use warnings;
