@@ -12,13 +12,24 @@ BEGIN {
 
 require_ok("00common.pl");
 
-our $sz = create_testfile(our $tf = "01basic.dat");
+our $tf = "01basic.dat";
+
+# Make sure there's no uc variant lying around.
+unlink(uc($tf));
+
+our $sz = create_testfile($tf);
+
+# If the uc variant tests ok, we have a case insensitive file system.
+my $ci = -s uc($tf) == $sz;
 
 try_move('s/\.dat$/.tmp/', "01basic.tmp", "move1");
 
-try_move('uc', "01BASIC.TMP", "move2");
-
-try_move('lc', "01basic.tmp", "move3");
+# Skip uc/lc tests on case insensitive file systems.
+SKIP: {
+    skip "Case insensitive file system", 4 if $ci;
+    try_move('uc', "01BASIC.TMP", "move2");
+    try_move('lc', "01basic.tmp", "move3");
+}
 
 try_move(sub { s/^(\d+)/sprintf("%03d", 32+$1)/e; },
 	 "033basic.tmp", "move4");
