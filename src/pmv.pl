@@ -1,13 +1,11 @@
 #!/usr/bin/perl -w
 my $RCS_Id = '$Id$ ';
 
-# Skeleton for Getopt::Long.
-
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Mon Aug 13 18:27:41 2007
-# Update Count    : 139
+# Last Modified On: Tue Aug 14 23:02:48 2007
+# Update Count    : 142
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
@@ -111,6 +109,7 @@ file names. If the result is different from the original name, the
 file will be renamed, linked, or symlinked.
 
 If the expression is any of C<uc>, C<lc>, of C<ucfirst>, B<pmv> will DWIM.
+Note that these are pretty useless on file systems that are case insensitive.
 
 B<pmv> is a wrapper around File::PerlMove, which does most of the work.
 
@@ -128,7 +127,7 @@ Link instead of rename.
 
 =item B<--symlink> B<-s>
 
-Symlink instead of rename.
+Symlink instead of rename. Note that not all platforms support symlinking.
 
 =item B<--reverse> B<-r>
 

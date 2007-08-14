@@ -7,13 +7,13 @@ my $RCS_Id = '$Id$ ';
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Mon Aug 13 14:42:20 2007
-# Update Count    : 145
+# Last Modified On: Tue Aug 14 23:10:47 2007
+# Update Count    : 148
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 use strict;
 use warnings;
@@ -136,6 +136,8 @@ string, it is assumed to be a valid Perl expression that will be
 turned into a anonymous subroutine that evals the expression. If the
 expression is any of C<uc>, C<lc>, of C<ucfirst>, the resultant code
 will behave as if these operations would modify C<$_> in-place.
+Note, however, that using any of these operations is useless on file
+systems that are case insensitive, like MS Windows and Mac.
 
 When I<transform> is invoked it should transform a file name in C<$_>
 into a new file name.
@@ -160,7 +162,7 @@ Link instead of rename.
 
 =item B<symlink>
 
-Symlink instead of rename.
+Symlink instead of rename. Note that not all platforms sypport symlinking,
 
 =item B<reverse>
 
