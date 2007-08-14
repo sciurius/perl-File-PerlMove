@@ -20,7 +20,7 @@ unlink(uc($tf));
 our $sz = create_testfile($tf);
 
 # If the uc variant tests ok, we have a case insensitive file system.
-my $ci = -s uc($tf) == $sz;
+my $ci = -s uc($tf);
 
 try_move('s/\.dat$/.tmp/', "01basic.tmp", "move1");
 
