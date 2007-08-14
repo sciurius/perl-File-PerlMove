@@ -6,8 +6,8 @@ my $RCS_Id = '$Id$ ';
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Mon Aug 13 14:42:02 2007
-# Update Count    : 134
+# Last Modified On: Mon Aug 13 18:27:41 2007
+# Update Count    : 139
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
@@ -19,18 +19,18 @@ my $my_package = 'Sciurix';
 # Program name and version.
 my ($my_name, $my_version) = $RCS_Id =~ /: (.+).pl,v ([\d.]+)/;
 # Tack '*' if it is not checked in into RCS.
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 $my_version .= '*' if length('$Locker$ ') > 12;
 
 ################ Command line parameters ################
 
-my $showonly = 0;		# just show, do nothing
-my $reverse = 0;		# process in reverse order
-my $overwrite = 0;		# overwrite existing files
-my $createdirs = 0;		# create missing dirs
-my $link = 0;			# link instead of rename
-my $symlink = 0;		# symlink instead
-my $verbose = 0;		# more verbosity
+my $showonly	= 0;		# just show, do nothing
+my $reverse	= 0;		# process in reverse order
+my $overwrite	= 0;		# overwrite existing files
+my $createdirs	= 0;		# create missing dirs
+my $link	= 0;		# link instead of rename
+my $symlink	= 0;		# symlink instead
+my $verbose	= 0;		# more verbosity
 
 # Process command line options.
 app_options();
@@ -94,15 +94,15 @@ pmv [options] expression [file ...]
 
 Options:
 
-   --dry-run -n         show, but do not do it
-   --link		link instead of rename
-   --symlink		symlink instead of rename
-   --reverse -r		process in reverse order
-   --overwite -o	overwrite exisiting files
+   --dry-run   -n       show, but do not do it
+   --link      -l	link instead of rename
+   --symlink   -s	symlink instead of rename
+   --reverse   -r	process in reverse order
+   --overwite  -o	overwrite exisiting files
    --make-dirs -p       create target dirs, if necessary
+   --verbose   -v	verbose information
    --ident		show identification
    --help		brief help message
-   --verbose		verbose information
 
 =head1 DESCRIPTION
 
@@ -122,27 +122,27 @@ B<pmv> is a wrapper around File::PerlMove, which does most of the work.
 
 Show the changes, but do not rename the files.
 
-=item B<--link>
+=item B<--link> B<-l>
 
 Link instead of rename.
 
-=item B<--symlink>
+=item B<--symlink> B<-s>
 
 Symlink instead of rename.
 
-=item B<--reverse>
+=item B<--reverse> B<-r>
 
 Process the files in reversed order.
 
-=item B<--overwrite>
+=item B<--overwrite> B<-o>
 
 Overwrite existing files.
 
-=item B<--make-dirs>
+=item B<--make-dirs> B<-p>
 
 Create target directories if necessary.
 
-=item B<--verbose>
+=item B<--verbose> B<-v>
 
 More verbose information.
 
@@ -156,7 +156,7 @@ Print a brief help message to standard output and exits.
 
 =item B<--ident>
 
-Prints a program identification.
+Prints a program identification. Processing continues.
 
 =item I<file>
 
@@ -168,17 +168,20 @@ File name(s).
 
 To change editor backup files back to Perl sources:
 
-    $ pmv 's/\.bak$/.pl/' *.bak
+    $ pmv -v 's/\.bak$/.pl/' *.bak
     foo.bak => foo.pl
     bar.bak => bar.pl
 
 Lowcase file names:
 
-    $ pmv lc *JPG
+    $ pmv -v lc *JPG
+    DSC03345.JPG => dsc03345.jpg
+    DSC03346.JPG => dsc03346.jpg
+    DSC03347.JPG => dsc03347.jpg
 
 Shift numbered examples to a new section:
 
-    $ pmv --reversed 's/^ex(\d)/"ex".($1+3)/ge' ex*
+    $ pmv --verbose --reverse 's/^ex(\d)/"ex".($1+3)/ge' ex*
     ex42.dat => ex72.dat
     ex25.dat => ex55.dat
     ex22.dat => ex52.dat
