@@ -1,10 +1,7 @@
-%define modname xxx
-%define modversion 0.0
-
-Name: %modname
+Name: perl-%modname
 Version: %modversion
 Release: 1
-Source: http://www.cpan.org/authors/id/JV/%{name}-%{version}.tar.gz
+Source: http://www.cpan.org/authors/id/JV/%{modname}-%{version}.tar.gz
 BuildArch: noarch
 Provides: %modname = %version
 URL: http://www.squirrel.nl/people/jvromans/
@@ -19,7 +16,7 @@ Group: Applications/Productivity
 With pmv you can rename files using the power of Perl expressions.
 
 %prep
-%setup -q
+%setup -q -n %{modname}-%{version}
 
 %build
 perl Makefile.PL
@@ -39,7 +36,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc CHANGES README
 
 %{_bindir}/pmv
-%{_libdir}/perl5/site_perl/*/*/auto/pmv
+%{_libdir}/perl5/site_perl/*/*/auto/File/*
 %{_libdir}/perl5/site_perl/*/File/*.pm
 %{_mandir}/man1/*
 %{_mandir}/man3/*
