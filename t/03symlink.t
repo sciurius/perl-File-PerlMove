@@ -2,17 +2,17 @@
 
 use strict;
 use warnings;
+use Test::More;
 
-# Check if we can symlink.
-my $can_symlink;
 BEGIN {
-    $can_symlink = eval { symlink("",""); 1 };
+    # Check if we can symlink.
+    if ( eval { symlink("",""); 1 } ) {
+	plan( tests => 9 );
+    }
+    else {
+	plan( skip_all => "Platform has no symlink" );
+    }
 }
-
-use Test::More
-    $can_symlink
-    ? ( tests => 9 )
-    : ( skip_all => "Platform has no symlink" );
 
 BEGIN {
     use_ok('File::PerlMove');
