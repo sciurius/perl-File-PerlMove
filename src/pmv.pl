@@ -4,8 +4,8 @@ my $RCS_Id = '$Id$ ';
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Wed Aug 15 13:58:16 2007
-# Update Count    : 144
+# Last Modified On: Thu Mar 13 20:32:33 2008
+# Update Count    : 148
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
@@ -17,7 +17,7 @@ my $my_package = 'Sciurix';
 # Program name and version.
 my ($my_name, $my_version) = $RCS_Id =~ /: (.+).pl,v ([\d.]+)/;
 # Tack '*' if it is not checked in into RCS.
-our $VERSION = "0.04";
+our $VERSION = "0.06";
 $my_version .= '*' if length('$Locker$ ') > 12;
 
 ################ Command line parameters ################
@@ -96,7 +96,7 @@ Options:
    --link      -l	link instead of rename
    --symlink   -s	symlink instead of rename
    --reverse   -r	process in reverse order
-   --overwite  -o	overwrite exisiting files
+   --overwite  -o	overwrite existing files
    --make-dirs -p       create target dirs, if necessary
    --verbose   -v	verbose information
    --ident		show identification
@@ -188,7 +188,7 @@ Shift numbered examples to a new section:
     ex12.dat => ex42.dat
 
 Note that these need to be processed in reversed order, to prevent
-C<ex12.dat => ex42.dat> botching with the exisitng C<ex42.dat>.
+C<< ex12.dat => ex42.dat >> botching with the exisitng C<ex42.dat>.
 
 =head1 SEE ALSO
 
