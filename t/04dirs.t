@@ -16,8 +16,8 @@ our $sz = create_testfile(our $tf = "01basic.dat");
 
 { my $warn;
   local $SIG{__WARN__} = sub { $warn = "@_"; };
-  is(File::PerlMove::move('s;^;04dirs/;', [ $tf ]), 0, "move1");
-  like($warn, qr/: no such file or directory/i, "move1 warning");
+  is(File::PerlMove::move('s;^;04dirs/;', [ $tf ], { errno => 1 }), 0, "move1");
+  like($warn, qr/: 2/, "move1 warning");
 }
 
 $tf = "01basic.dat";
