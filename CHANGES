@@ -1,3 +1,8 @@
+0.06
+
+0.05 Some typos.
+     Add possibility to produce locale independent warnings.
+
 0.04 Rename to perl-File-PerlMove.
      Fix symlink test.
 
