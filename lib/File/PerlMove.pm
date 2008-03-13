@@ -7,13 +7,13 @@ my $RCS_Id = '$Id$ ';
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Wed Aug 15 13:58:25 2007
-# Update Count    : 150
+# Last Modified On: Thu Mar 13 20:31:30 2008
+# Update Count    : 156
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
 
-our $VERSION = "0.04";
+our $VERSION = "0.06";
 
 use strict;
 use warnings;
@@ -31,6 +31,11 @@ sub move {
 	  "operation, [ file names ], { options })")
       unless defined $transform && defined $filelist;
 
+    # For those who misunderstood the docs.
+    $options->{showonly}   ||= delete $options->{'dry-run'};
+    $options->{createdirs} ||= delete $options->{'create-dirs'};
+
+    # Create transformer.
     $transform = build_sub($transform)
       unless ref($transform) eq 'CODE';
 
@@ -87,7 +92,10 @@ sub move {
 		$result++;
 	    }
 	    else {
-		warn("$old: $!\n");
+		# Force error numbers (for locale independency).
+		warn($options->{errno}
+		     ? "$old: ".(0+$!)."\n"
+		     : "$old: $!\n");
 	    }
 	}
     }
@@ -162,7 +170,7 @@ Link instead of rename.
 
 =item B<symlink>
 
-Symlink instead of rename. Note that not all platforms sypport symlinking,
+Symlink instead of rename. Note that not all platforms support symlinking,
 
 =item B<reverse>
 
