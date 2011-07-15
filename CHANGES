@@ -1,4 +1,7 @@
-0.06
+0.06 Bugfix.
+     The pattern execution delivered unexpected results when the
+     pattern contained ^uc|lc|ucfirst$.
+     This should have been ^(uc|lc|ucfirst)$.
 
 0.05 Some typos.
      Add possibility to produce locale independent warnings.

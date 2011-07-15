@@ -4,8 +4,8 @@ my $RCS_Id = '$Id$ ';
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Thu Mar 13 20:32:33 2008
-# Update Count    : 148
+# Last Modified On: Fri Jul 15 14:14:51 2011
+# Update Count    : 152
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
@@ -192,7 +192,7 @@ C<< ex12.dat => ex42.dat >> botching with the exisitng C<ex42.dat>.
 
 =head1 SEE ALSO
 
-File::PerlMove.
+File::PerlMove, App::perlmv (and perlvm), File::Rename (and rename).
 
 =head1 AUTHOR
 
@@ -200,7 +200,7 @@ Johan Vromans <jvromans@squirrel.nl>
 
 =head1 COPYRIGHT
 
-This programs is Copyright 2004, Squirrel Consultancy.
+This programs is Copyright 2004,2010,2011 Squirrel Consultancy.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Perl Artistic License or the GNU General
