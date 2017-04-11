@@ -26,6 +26,7 @@ WriteMakefile
 		     'File::Path' => 0,
 		     'File::Basename' => 0,
 		   },
+   LICENSE => 'artistic_2',
    EXE_FILES    => \@scripts,
    # *.pm files will be picked up automatically from ./lib
  );
