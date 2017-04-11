@@ -7,6 +7,7 @@ use Test::More tests => 11;
 BEGIN {
     use_ok('File::PerlMove');
 }
+diag( "Testing File::PerlMove $File::PerlMove::VERSION, Perl $], $^X" );
 
 -d "t" && chdir("t");
 

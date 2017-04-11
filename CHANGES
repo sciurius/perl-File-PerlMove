@@ -1,3 +1,7 @@
+0.07 Apr 11 2017
+
+     Migrate from CVS to Git.
+
 0.06 Bugfix.
      The pattern execution delivered unexpected results when the
      pattern contained ^uc|lc|ucfirst$.

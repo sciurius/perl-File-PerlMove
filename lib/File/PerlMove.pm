@@ -2,18 +2,16 @@
 
 package File::PerlMove;
 
-my $RCS_Id = '$Id$ ';
-
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Fri Jul 15 14:12:37 2011
-# Update Count    : 167
+# Last Modified On: Tue Apr 11 11:19:14 2017
+# Update Count    : 169
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
 
-our $VERSION = "0.06";
+our $VERSION = "0.07";
 
 use strict;
 use warnings;
