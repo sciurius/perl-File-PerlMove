@@ -20,7 +20,7 @@ BEGIN {
 
 -d "t" && chdir("t");
 
-require_ok("00common.pl");
+require_ok("./00common.pl");
 
 our $sz = create_testfile(our $tf = "01basic.dat");
 

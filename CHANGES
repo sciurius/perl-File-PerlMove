@@ -1,3 +1,7 @@
+1.00 Apr 11 2017
+
+     Fix test failures with perl 5.26+.
+
 0.07 Apr 11 2017
 
      Migrate from CVS to Git.

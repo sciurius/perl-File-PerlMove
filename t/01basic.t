@@ -11,7 +11,7 @@ diag( "Testing File::PerlMove $File::PerlMove::VERSION, Perl $], $^X" );
 
 -d "t" && chdir("t");
 
-require_ok("00common.pl");
+require_ok("./00common.pl");
 
 our $tf = "01basic.dat";
 

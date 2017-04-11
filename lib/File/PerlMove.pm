@@ -5,13 +5,13 @@ package File::PerlMove;
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Tue Apr 11 11:19:14 2017
-# Update Count    : 169
+# Last Modified On: Tue Apr 11 11:32:06 2017
+# Update Count    : 173
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
 
-our $VERSION = "0.07";
+our $VERSION = "1.00";
 
 use strict;
 use warnings;
@@ -202,11 +202,11 @@ Johan Vromans <jvromans@squirrel.nl>
 
 =head1 SEE ALSO
 
-App::perlmv (and perlvm), File::Rename (and rename).
+App::perlmv (and perlmv), File::Rename (and rename).
 
 =head1 COPYRIGHT
 
-This programs is Copyright 2004,2010 Squirrel Consultancy.
+This programs is Copyright 2004,2010,2017 Squirrel Consultancy.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Perl Artistic License or the GNU General
