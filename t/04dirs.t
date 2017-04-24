@@ -12,7 +12,7 @@ BEGIN {
 
 require_ok("./00common.pl");
 
-our $sz = create_testfile(our $tf = "01basic.dat");
+our $sz = create_testfile(our $tf = "04dirs.dat");
 
 { my $warn;
   local $SIG{__WARN__} = sub { $warn = "@_"; };
@@ -20,7 +20,7 @@ our $sz = create_testfile(our $tf = "01basic.dat");
   like($warn, qr/: 2/, "move1 warning");
 }
 
-$tf = "01basic.dat";
+$tf = "04dirs.dat";
 is(File::PerlMove::move('s;^;04dirs/;', [ $tf ], { createdirs => 1 }), 1, "move2");
 $tf = verify("04dirs/$tf", "move2");
 

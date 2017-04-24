@@ -5,13 +5,13 @@ package File::PerlMove;
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Tue Apr 11 11:32:06 2017
-# Update Count    : 173
+# Last Modified On: Mon Apr 24 10:04:57 2017
+# Update Count    : 177
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
 
-our $VERSION = "1.00";
+our $VERSION = "1.01";
 
 use strict;
 use warnings;
@@ -25,7 +25,7 @@ sub move {
     my $options   = shift || {};
     my $result    = 0;
 
-    croak("Usage: move(" .
+    croak("Usage: ", __PACKAGE__, "::move(" .
 	  "operation, [ file names ], { options })")
       unless defined $transform && defined $filelist;
 
@@ -133,7 +133,7 @@ File::PerlMove - Rename files using Perl expressions
 =head1 SYNOPSIS
 
   use File::PerlMove;
-  move(sub { $_ = lc }, \@filelist, { verbose => 1 });
+  File::PerlMove::move(sub { $_ = lc }, \@filelist, { verbose => 1 });
 
 =head1 DESCRIPTION
 
@@ -191,6 +191,10 @@ Create target directories if necessary.
 More verbose information.
 
 =back
+
+=head1 EXPORTS
+
+None.
 
 =head1 EXAMPLES
 

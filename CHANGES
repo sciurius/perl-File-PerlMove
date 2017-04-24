@@ -1,3 +1,7 @@
+1.01 Apr 24 2017
+
+     Allow tests to be executed in parallel.
+
 1.00 Apr 11 2017
 
      Fix test failures with perl 5.26+.

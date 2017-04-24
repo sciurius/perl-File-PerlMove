@@ -22,13 +22,13 @@ BEGIN {
 
 require_ok("./00common.pl");
 
-our $sz = create_testfile(our $tf = "01basic.dat");
+our $sz = create_testfile(our $tf = "03symlink.dat");
 
-try_symlink('s/\.dat$/.tmp/', "01basic.tmp", "symlink1");
+try_symlink('s/\.dat$/.tmp/', "03symlink.tmp", "symlink1");
 
 { my $warn;
   local $SIG{__WARN__} = sub { $warn = "@_"; };
-  $tf = "01basic.dat";
+  $tf = "03symlink.dat";
   is(File::PerlMove::move('s/\.dat$/.tmp/', [ $tf ], { symlink => 1 }), 0, "symlink2");
   like($warn, qr/: exists/, "symlink2 warning");
 }

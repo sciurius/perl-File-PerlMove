@@ -22,7 +22,7 @@ sub verify {
     my $tf = shift;
     my $tag = shift;
     push(@unlinks, $tf);
-    is(-s $tf, $sz, "$tag check");
+    is(-s $tf, $sz, "$tag check [$tf]");
     $tf;
 }
 

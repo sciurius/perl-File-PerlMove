@@ -12,13 +12,13 @@ BEGIN {
 
 require_ok("./00common.pl");
 
-our $sz = create_testfile(our $tf = "01basic.dat");
+our $sz = create_testfile(our $tf = "02link.dat");
 
-try_link('s/\.dat$/.tmp/', "01basic.tmp", "link1");
+try_link('s/\.dat$/.tmp/', "02link.tmp", "link1");
 
 { my $warn;
   local $SIG{__WARN__} = sub { $warn = "@_"; };
-  $tf = "01basic.dat";
+  $tf = "02link.dat";
   is(File::PerlMove::move('s/\.dat$/.tmp/', [ $tf ], { link => 1 }), 0, "link2");
   like($warn, qr/: exists/, "link2 warning");
 }
