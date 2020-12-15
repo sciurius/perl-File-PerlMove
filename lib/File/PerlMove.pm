@@ -5,13 +5,13 @@ package File::PerlMove;
 # Author          : Johan Vromans
 # Created On      : Tue Sep 15 15:59:04 1992
 # Last Modified By: Johan Vromans
-# Last Modified On: Mon Dec 14 14:45:50 2020
-# Update Count    : 213
+# Last Modified On: Tue Dec 15 14:55:07 2020
+# Update Count    : 222
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
 
-our $VERSION = "1.02";
+our $VERSION = "2.00";
 
 use strict;
 use warnings;
@@ -19,9 +19,17 @@ use Carp;
 use File::Basename;
 use File::Path;
 use parent qw(Exporter);
-our @EXPORT_OK = qw( move );
+
+our @EXPORT = qw( pmv );
 
 sub move {
+    my $transform = shift;
+    my $filelist  = shift;
+    my $options   = shift || {};
+    pmv( $transform, $filelist, { %$options, legacy => 1 } );
+}
+
+sub pmv {
     my $transform = shift;
     my $filelist  = shift;
     my $options   = shift || {};
@@ -44,10 +52,17 @@ sub move {
     foreach ( @$filelist ) {
 	# Save the name.
 	my $old = $_;
+
 	# Perform the transformation.
-	$transform->();
-	# Get the new name.
-	my $new = $_;
+	my $new;
+	if ( $options->{legacy}) {
+	    # Legacy operates on $_.
+	    $transform->();
+	    $new = $_;
+	}
+	else {
+	    $new = $transform->($_);
+	}
 
 	# Anything changed?
 	unless ( $old eq $new ) {
@@ -151,8 +166,8 @@ sub build_sub {
     }
 
     # Hopefully a regex. Build subroutine.
-    return "sub { $cmd }" if $options->{testing};
-    my $op = eval "sub { $cmd }";
+    return "sub { \$_ = \$_[0]; $cmd; \$_ }" if $options->{testing};
+    my $op = eval "sub { \$_ = \$_[0]; $cmd; \$_ }";
     if ( $@ ) {
 	$@ =~ s/ at \(eval.*/./;
 	croak($@);
@@ -163,9 +178,9 @@ sub build_sub {
 
 package File::PerlMove::BuiltIn;
 
-sub lc { $_ = CORE::lc($_) }
-sub uc { $_ = CORE::uc($_) }
-sub ucfirst { $_ = CORE::ucfirst($_) }
+sub lc { CORE::lc($_[0]) }
+sub uc { CORE::uc($_[0]) }
+sub ucfirst { CORE::ucfirst($_[0]) }
 
 1;
 
@@ -177,20 +192,21 @@ File::PerlMove - Rename files using Perl expressions
 
 =head1 SYNOPSIS
 
-  use File::PerlMove;
-  File::PerlMove::move(sub { $_ = lc }, \@filelist, { verbose => 1 });
+  use File::PerlMove qw(pmv);
+  pmv( sub { lc($_[0]) }, \@filelist, { verbose => 1 });
 
 =head1 DESCRIPTION
 
-File::PerlMove provides a single subroutine: B<File::PerlMove::move>.
+File::PerlMove provides a single subroutine: B<File::PerlMove::pmv>.
 
-B<move> takes three arguments: transform, filelist, and options.
+B<pmv> takes three arguments: transform, filelist, and options.
 
-I<transform> must be a string or a code reference. If it is not a
-string, it is assumed to be a valid Perl expression that will be
+I<transform> must be a string or a code reference. If it is a string,
+it is assumed to be a valid Perl expression that will be evaluated to
+modify C<$_>.
 
-When I<transform> is invoked it should transform a file name in C<$_>
-into a new file name.
+When I<transform> is invoked it should transform a file name passes as
+argument into a new file name.
 
 I<filelist> must be an array reference containing the list of file
 names to be processed.
@@ -226,6 +242,14 @@ Overwrite existing files.
 
 Create target directories if necessary.
 
+=item B<legacy>
+
+If I<transform> is a code reference, it is called with the old name as
+argument and must return the new, transformed name.
+
+If B<legacy> is true, the code reference adheres to the old API where
+the routine modifies the filename stored in C<$_>.
+
 =item B<verbose>
 
 More verbose information.
@@ -234,7 +258,7 @@ More verbose information.
 
 =head1 EXPORTS
 
-The main subroutine move() can be exported on demand.
+The main subroutine pmv() can be exported on demand.
 
 =head1 EXTENSIONS
 
@@ -301,7 +325,7 @@ App::perlmv (and perlmv), File::Rename (and rename).
 
 =head1 COPYRIGHT
 
-This programs is Copyright 2004,2010,2017 Squirrel Consultancy.
+This programs is Copyright 2004,2010,2017,2020 Squirrel Consultancy.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Perl Artistic License or the GNU General

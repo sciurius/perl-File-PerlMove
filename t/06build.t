@@ -26,7 +26,7 @@ is(File::PerlMove::build_sub('uc', $o ),
 is(File::PerlMove::build_sub(':foo:bar:', $o ),
    "Encode::from_to(\$_,\"foo\",\"bar\")", "Encode::from_to(\$_,\"foo\",\"bar\")");
 is(File::PerlMove::build_sub('s/foo/bar/', $o ),
-   "sub { s/foo/bar/ }", "sub { s/foo/bar/ }");
+   "sub { \$_ = \$_[0]; s/foo/bar/; \$_ }", "sub { \$_ = \$_[0]; s/foo/bar/; \$_ }");
 
 
 package File::PerlMove::foo;

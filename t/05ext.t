@@ -15,7 +15,7 @@ require_ok("./00common.pl");
 
 our $sz = create_testfile(our $tf = "05ext.dat");
 
-is(File::PerlMove::move('t::foo', [ $tf ], { createdirs => 1 }), 1, "ext1");
+is(pmv('t::foo', [ $tf ], { createdirs => 1 }), 1, "ext1");
 $tf = verify(uc($tf), "move2");
 
 cleanup();

@@ -6,10 +6,10 @@ use strict;
 use warnings;
 
 sub foo {
-    $_ = uc($_);
+    uc($_[0]);
 }
 sub bar {
-    $_ = ucfirst($_);
+    ucfirst($_[0]);
 }
 
 1;
